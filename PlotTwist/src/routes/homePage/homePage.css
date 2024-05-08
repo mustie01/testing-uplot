@@ -1,0 +1,40 @@
+.container-full-length {
+  display: grid;
+  height: 100dvh;
+  place-content: center;
+}
+.container-full-length__container {
+  align-items: start;
+  border-top: 2.5px;
+  display: grid;
+  gap: 5rem;
+  max-width: 400px;
+  padding: 1rem;
+}
+
+.buttons {
+  border-top: 2.5px solid transparent;
+  display: grid;
+  gap: 1.5rem;
+  padding: 0rem 1rem;
+}
+
+button {
+  background-color: white;
+  border: none;
+  border-radius: 10px;
+  box-shadow: 2.5px 5px;
+  font-size: 1.5rem;
+  height: 75px;
+  width: 100%;
+}
+
+button:hover {
+  border-top: 2.5px solid transparent;
+  box-shadow: 2.5px 2.5px;
+  cursor: pointer;
+}
+
+#logo-img {
+  width: 100%;
+}
