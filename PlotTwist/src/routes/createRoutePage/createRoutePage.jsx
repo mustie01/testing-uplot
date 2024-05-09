@@ -5,16 +5,25 @@ import { useState } from "react";
 export default function CreateRoutePage() {
   const [routeIsCreated, setRouteIsCreated] = useState(false);
   const [changeOpeningPara, setChangeOpeningPara] = useState(true);
-
+  const [markerCoordinatesArray, setMarkerCoordinatesArray] = useState([]);
 
   const handleReset = () => {
     setChangeOpeningPara(false);
-  }
+    setMarkerCoordinatesArray([]);
+  };
 
   const handleRouteCreation = () => {
     setRouteIsCreated(true);
   };
 
+  const handleMapClick = (event) => {
+    setMarkerCoordinatesArray((prev) => {
+      return [
+        ...prev,
+        { lat: event.detail.latLng.lat, lng: event.detail.latLng.lng },
+      ];
+    });
+  };
   return (
     <>
       <div className="headerForNow">
@@ -36,14 +45,18 @@ export default function CreateRoutePage() {
         </h2>
       </div>
       <div className="createRoute__map">
-        <DynamicMap routeIsCreated={routeIsCreated} />
+        <DynamicMap
+          routeIsCreated={routeIsCreated}
+          handleMapClick={handleMapClick}
+          markerCoordinatesArray={markerCoordinatesArray}
+        />
       </div>
-      <div className="createRoute__Buttons">
-        <button onClick={handleReset}>
-          Reset
-        </button>
-        <button onClick={handleRouteCreation}> Create Route </button>
-      </div>
+      {!routeIsCreated ? (
+        <div className="createRoute__Buttons">
+          <button onClick={handleReset}>Reset</button>
+          <button onClick={handleRouteCreation}> Create Route </button>
+        </div>
+      ) : null}
     </>
   );
 }
