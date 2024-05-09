@@ -1,7 +1,13 @@
 import { useEffect, useState } from "react";
 import { useMap, useMapsLibrary } from "@vis.gl/react-google-maps";
+import "./directionsData.css";
 
-export default function Directions({ markerCoordinatesArray, routeIsCreated }) {
+export default function Directions({
+  markerCoordinatesArray,
+  setMarkerCoordinatesArray,
+  routeIsCreated,
+  setRouteIsCreated,
+}) {
   const map = useMap();
 
   const routesLibrary = useMapsLibrary("routes");
@@ -12,12 +18,13 @@ export default function Directions({ markerCoordinatesArray, routeIsCreated }) {
 
   const [directionsResult, setDirectionsResult] = useState();
 
+  const [resetMadeMapClicked, setResetMadeMapClicked] = useState(false);
   useEffect(() => {
     if (!routesLibrary || !map) return;
 
     setDirectionsService(new routesLibrary.DirectionsService());
     setDirectionsRenderer(new routesLibrary.DirectionsRenderer({ map }));
-  }, [routesLibrary, map]);
+  }, [routesLibrary, map, resetMadeMapClicked]);
 
   useEffect(() => {
     if (
@@ -49,7 +56,7 @@ export default function Directions({ markerCoordinatesArray, routeIsCreated }) {
       })
       .then((response) => {
         directionsRenderer.setDirections(response);
-
+        //setDirectionsResult(response);
         setDirectionsResult(directionsRenderer.getDirections());
       });
   }, [
@@ -67,7 +74,7 @@ export default function Directions({ markerCoordinatesArray, routeIsCreated }) {
         <>
           <section className="createRoute__panel">
             <div className="createRoute__panelETABar">
-              <ol>
+              <ol className="createRoute__panelETABar__list">
                 <li>Start</li>
                 {directionsResult.routes[0].legs.map((element, index) => {
                   return (
@@ -78,11 +85,20 @@ export default function Directions({ markerCoordinatesArray, routeIsCreated }) {
                 })}
               </ol>
             </div>
-
             <div className="createRoute__panel__actionButtons">
               <button>Export Route</button>
               <button>Save Route</button>
-              <button>Reset</button>
+              <button
+                onClick={() => {
+                  setRouteIsCreated(!routeIsCreated);
+                  setMarkerCoordinatesArray([]);
+                  setResetMadeMapClicked(!resetMadeMapClicked);
+                  directionsRenderer.setMap(null);
+                  //setDirectionsResult(null);
+                }}
+              >
+                Reset
+              </button>
             </div>
           </section>
         </>
