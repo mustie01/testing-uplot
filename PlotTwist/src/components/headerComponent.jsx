@@ -1,15 +1,14 @@
 import { useState } from "react";
-import reactLogo from "./assets/react.svg";
-import viteLogo from "/vite.svg";
-import "./App.css";
+import "./headerComponent.css";
+import logo from "../assets/logo.png";
 
-function App() {
+export default function Header() {
   //state for the burger bar - so when true, it is showing
   const [showMenuBar, setShowMenuBar] = useState(false);
 
   const menuBarOptions = [
     { name: "HOME", image: "/home-icon.svg", link: "" },
-    { name: "CREATE ROUTE", image: "/create-route.png", link: "" },
+    { name: "CREATE ROUTE", image: {}, link: "" },
     { name: "SAVED ROUTES", image: "/saved-routes.png", link: "" },
     { name: "HELP", image: "/help.png", link: "" },
   ];
@@ -17,7 +16,7 @@ function App() {
     <>
       <div className="top-bar">
         <div className="logo-container">
-          <img id="logo" src="/logo.png" alt="logo"></img>
+          <img id="logo" src={logo} alt="logo"></img>
         </div>
 
         <div className="menu-icon-container">
@@ -66,5 +65,3 @@ function App() {
     </>
   );
 }
-
-export default App;
