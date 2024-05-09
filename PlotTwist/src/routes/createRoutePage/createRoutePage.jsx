@@ -1,7 +1,7 @@
 import DynamicMap from "../../components/dynamicMap/dynamicMap";
 import "./createRoutePage.css";
 import { useState } from "react";
-
+import Header from "../../components/headerComponent.jsx";
 export default function CreateRoutePage() {
   const [routeIsCreated, setRouteIsCreated] = useState(false);
   const [changeOpeningPara, setChangeOpeningPara] = useState(true);
@@ -27,7 +27,7 @@ export default function CreateRoutePage() {
   return (
     <>
       <div className="headerForNow">
-        <h1>All things header (to be put in when header component is here)</h1>
+        <Header />
       </div>
       <div className="createRoute__OpeningParas">
         {changeOpeningPara ? (
@@ -49,6 +49,8 @@ export default function CreateRoutePage() {
           routeIsCreated={routeIsCreated}
           handleMapClick={handleMapClick}
           markerCoordinatesArray={markerCoordinatesArray}
+          setRouteIsCreated={setRouteIsCreated}
+          setMarkerCoordinatesArray={setMarkerCoordinatesArray}
         />
       </div>
       {!routeIsCreated ? (
