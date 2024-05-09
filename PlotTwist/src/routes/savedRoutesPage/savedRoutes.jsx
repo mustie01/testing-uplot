@@ -1,21 +1,29 @@
 import Header from "../../components/headerComponent";
+import { useEffect, useState } from "react";
 
 export default function SavedRoutesPage() {
-  // dummy data
-  const data = [
-    {
-      name: "Test Route 1",
-      data: "Test Data 1",
-    },
-    {
-      name: "Test Route 2",
-      data: "Test Data 2",
-    },
-    {
-      name: "Test Route 3",
-      data: "Test Data 3",
-    },
-  ];
+  const [routes, setRoutes] = useState([]);
+
+  const deleteRoute = async (e) => {
+    // the value of the delete button has been set to route.id
+    // hence e.target.value will be route.id
+    console.log(e.target.value);
+  };
+
+  // on page load, this will populate the routes
+  // dependency array is empty which is why it's on page load
+  useEffect(() => {
+    const getAllRoutes = async () => {
+      console.log("Fetching routes...");
+      const response = await fetch(
+        "https://final-project-backend-lp20.onrender.com/routes"
+      );
+      const data = await response.json();
+      setRoutes(data.payload);
+      console.log(data);
+    };
+    getAllRoutes();
+  }, []);
 
   return (
     <div>
@@ -27,12 +35,17 @@ export default function SavedRoutesPage() {
             <th>Route Name</th>
             <th>Button</th>
           </tr>
-          {data.map((route, index) => {
+          {routes.map((route, index) => {
             return (
               <tr key={index}>
-                <td>{route.name}</td>
+                <td>{route.route_name}</td>
                 <td>
                   <button>Retrieve Route</button>
+                </td>
+                <td>
+                  <button value={route.id} onClick={deleteRoute}>
+                    Delete Button
+                  </button>
                 </td>
               </tr>
             );
