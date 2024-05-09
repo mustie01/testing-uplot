@@ -1,0 +1,12 @@
+.savedRoutesTable {
+  background-color: aliceblue;
+  width: 100%;
+  padding: 1rem;
+}
+
+.savedRoutesTable__retrieveRouteButton {
+}
+
+.savedRoutesTable__deleteRouteButton {
+  background-color: rgb(247, 136, 136);
+}
