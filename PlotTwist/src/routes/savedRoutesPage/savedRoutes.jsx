@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 export default function SavedRoutesPage() {
   const [routes, setRoutes] = useState([]);
 
+  //Avoiding second API call
   const deleteRoute = async (e) => {
     // the value of the delete button has been set to route.id
     // hence e.target.value will be route.id
