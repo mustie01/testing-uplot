@@ -1,9 +1,20 @@
-import CreateMap from "../../components/CreateMap.jsx";
+import DynamicMap from "../../components/dynamicMap/dynamicMap";
 import "./createRoutePage.css";
 import { useState } from "react";
 
 export default function CreateRoutePage() {
+  const [routeIsCreated, setRouteIsCreated] = useState(false);
   const [changeOpeningPara, setChangeOpeningPara] = useState(true);
+
+
+  const handleReset = () => {
+    setChangeOpeningPara(false);
+  }
+
+  const handleRouteCreation = () => {
+    setRouteIsCreated(true);
+  };
+
   return (
     <>
       <div className="headerForNow">
@@ -12,11 +23,11 @@ export default function CreateRoutePage() {
       <div className="createRoute__OpeningParas">
         {changeOpeningPara ? (
           <h2>
-            Welcome to U-PLOT! <br /> You’ll be able to plan routes simply and
+            Welcome to U-PLOT! <br /> You will be able to plan routes simply and
             easily
           </h2>
         ) : (
-          <h2>You’ve reset your route </h2>
+          <h2>You have reset your route </h2>
         )}
         <br />
         <h2>
@@ -25,18 +36,13 @@ export default function CreateRoutePage() {
         </h2>
       </div>
       <div className="createRoute__map">
-        <CreateMap />
+        <DynamicMap routeIsCreated={routeIsCreated} />
       </div>
       <div className="createRoute__Buttons">
-        <button
-          onClick={() => {
-            setChangeOpeningPara(false);
-          }}
-        >
-          {" "}
-          Reset{" "}
+        <button onClick={handleReset}>
+          Reset
         </button>
-        <button> Create Route </button>
+        <button onClick={handleRouteCreation}> Create Route </button>
       </div>
     </>
   );
