@@ -1,6 +1,6 @@
 import Header from "../../components/headerComponent";
 import { useEffect, useState } from "react";
-
+import "./savedRoutes.css";
 export default function SavedRoutesPage() {
   const [routes, setRoutes] = useState([]);
 
@@ -37,21 +37,26 @@ export default function SavedRoutesPage() {
     <div>
       <Header />
       {/* table with .map - show name and button */}
-      <table>
+      <table className="savedRoutesTable">
         <tbody>
           <tr>
             <th>Route Name</th>
-            <th>Button</th>
           </tr>
           {routes.map((route, index) => {
             return (
               <tr key={index}>
                 <td>{route.route_name}</td>
                 <td>
-                  <button>Retrieve Route</button>
+                  <button className="savedRoutesTable__retrieveRouteButton">
+                    Retrieve Route
+                  </button>
                 </td>
                 <td>
-                  <button value={route.id} onClick={deleteRoute}>
+                  <button
+                    className="savedRoutesTable__deleteRouteButton"
+                    value={route.id}
+                    onClick={deleteRoute}
+                  >
                     Delete Button
                   </button>
                 </td>
