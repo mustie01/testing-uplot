@@ -1,26 +1,12 @@
 import { useState } from "react";
 import DirectionsData from "../directionsData/directionsData";
-import {
-  APIProvider,
-  Map,
-  Marker,
-} from "@vis.gl/react-google-maps";
+import { APIProvider, Map, Marker } from "@vis.gl/react-google-maps";
 
-export default function DynamicMap({routeIsCreated}) {
-  const [markerCoordinatesArray, setMarkerCoordinatesArray] = useState([]);
-
-
-  
-
-  const handleMapClick = (event) => {
-    setMarkerCoordinatesArray((prev) => {
-      return [
-        ...prev,
-        { lat: event.detail.latLng.lat, lng: event.detail.latLng.lng },
-      ];
-    });
-  };
-
+export default function DynamicMap({
+  routeIsCreated,
+  markerCoordinatesArray,
+  handleMapClick,
+}) {
   // const position = { lat: 52.4823, lng: -1.89 };
 
   return (
@@ -48,4 +34,3 @@ export default function DynamicMap({routeIsCreated}) {
     </div>
   );
 }
-
