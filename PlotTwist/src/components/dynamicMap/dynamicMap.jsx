@@ -6,13 +6,11 @@ import {
   Marker,
 } from "@vis.gl/react-google-maps";
 
-export default function DynamicMap() {
+export default function DynamicMap({routeIsCreated}) {
   const [markerCoordinatesArray, setMarkerCoordinatesArray] = useState([]);
-  const [createdRoute, setCreatedRoute] = useState(false);
 
-  const handleRouteCreation = () => {
-    setCreatedRoute(true);
-  };
+
+  
 
   const handleMapClick = (event) => {
     setMarkerCoordinatesArray((prev) => {
@@ -23,20 +21,20 @@ export default function DynamicMap() {
     });
   };
 
-  const position = { lat: 52.4823, lng: -1.89 };
+  // const position = { lat: 52.4823, lng: -1.89 };
 
   return (
     <div style={{ height: "50vh", width: "50%" }}>
       <APIProvider apiKey={import.meta.env.VITE_PUBLIC_GOOGLE_MAPS_API_KEY}>
         <Map
-          center={position}
-          zoom={9}
+          // center={position}
+          // zoom={9}
           mapId={import.meta.env.VITE_PUBLIC_MAP_ID}
           fullscreenControl={false}
           onClick={handleMapClick}
         >
           {markerCoordinatesArray[0] &&
-            !createdRoute &&
+            !routeIsCreated &&
             markerCoordinatesArray.map((marker, index) => {
               return <Marker key={index} position={marker} draggable={true} />;
             })}
@@ -44,10 +42,9 @@ export default function DynamicMap() {
 
         <DirectionsData
           markerCoordinatesArray={markerCoordinatesArray}
-          createdRoute={createdRoute}
+          routeIsCreated={routeIsCreated}
         />
       </APIProvider>
-      <button onClick={handleRouteCreation}>Create Route</button>
     </div>
   );
 }

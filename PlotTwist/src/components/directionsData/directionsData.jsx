@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useMap, useMapsLibrary } from "@vis.gl/react-google-maps";
 
-export default function Directions({ markerCoordinatesArray, createdRoute }) {
+export default function Directions({ markerCoordinatesArray, routeIsCreated }) {
     const map = useMap();
   
     const routesLibrary = useMapsLibrary("routes");
@@ -24,7 +24,7 @@ export default function Directions({ markerCoordinatesArray, createdRoute }) {
         !directionsService ||
         !directionsRenderer ||
         markerCoordinatesArray.length < 2 ||
-        !createdRoute
+        !routeIsCreated
       )
         return;
   
@@ -56,7 +56,7 @@ export default function Directions({ markerCoordinatesArray, createdRoute }) {
       directionsService,
       directionsRenderer,
       markerCoordinatesArray,
-      createdRoute,
+      routeIsCreated,
     ]);
   
     // console.log(directionsResult);
