@@ -19,8 +19,12 @@ export default function HomePage() {
             <img id="logo-img" src={FullLogo}></img>
           </div>
           <div className="buttons">
-            <button>My Saved Routes</button>
-            <button>Create A Route</button>
+            <Link to={"saved-routes"}>
+              <button>My Saved Routes</button>
+            </Link>
+            <Link to={"create-route"}>
+              <button>Create A Route</button>
+            </Link>
           </div>
         </div>
       </div>
