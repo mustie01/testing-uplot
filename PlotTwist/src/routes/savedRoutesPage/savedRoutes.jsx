@@ -18,11 +18,9 @@ export default function SavedRoutesPage() {
     console.log(data);
     //This function is called after the deletion to re-render on page load, this will populate the routes
     getAllRoutes();
-
-  =
   };
   const getAllRoutes = async () => {
-      //This function fetches all the routes form the backend.
+    //This function fetches all the routes form the backend.
     console.log("Fetching routes...");
     const response = await fetch(
       "https://final-project-backend-lp20.onrender.com/routes"
@@ -30,11 +28,10 @@ export default function SavedRoutesPage() {
     //changes the data into json so we can display it on the screen
     const data = await response.json();
     //the fetch routes are then store in routes state by using the setRoutes function.
-  
+
     setRoutes(data.payload);
     console.log(data);
   };
-  
 
   useEffect(() => {
     // this ensures that getAllRoutes is called only once when the component is first rendered.
