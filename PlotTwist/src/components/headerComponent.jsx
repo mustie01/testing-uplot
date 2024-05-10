@@ -6,22 +6,25 @@ import homeicon from "../assets/home-icon.svg";
 import help from "../assets/help.png";
 import createroute from "../assets/create-route.png";
 import savedroutes from "../assets/saved-routes.png";
+import { Link } from "react-router-dom";
 
 export default function Header() {
   //state for the burger bar - so when true, it is showing
   const [showMenuBar, setShowMenuBar] = useState(false);
 
   const menuBarOptions = [
-    { name: "HOME", image: { homeicon }, link: "" },
-    { name: "CREATE ROUTE", image: { createroute }, link: "" },
-    { name: "SAVED ROUTES", image: { savedroutes }, link: "" },
+    { name: "HOME", image: { homeicon }, link: "/" },
+    { name: "CREATE ROUTE", image: { createroute }, link: "/create-route" },
+    { name: "SAVED ROUTES", image: { savedroutes }, link: "/saved-routes" },
     { name: "HELP", image: { help }, link: "" },
   ];
   return (
     <>
       <div className="top-bar">
         <div className="logo-container">
-          <img id="logo" src={logo} alt="logo"></img>
+          <Link to={"/"}>
+            <img id="logo" src={logo} alt="logo"></img>
+          </Link>
         </div>
 
         <div className="menu-icon-container">
@@ -50,13 +53,15 @@ export default function Header() {
                   {element.image.length > 2 && (
                     <img src={element.image} alt={element.name} />
                   )}
-                  <button
-                    key={index}
-                    className={element.name}
-                    onClick={element.whenClick}
-                  >
-                    {element.name}
-                  </button>
+                  <Link to={element.link}>
+                    <button
+                      key={index}
+                      className={element.name}
+                      onClick={element.whenClick}
+                    >
+                      {element.name}
+                    </button>
+                  </Link>
                 </div>
               ))}
             </div>
