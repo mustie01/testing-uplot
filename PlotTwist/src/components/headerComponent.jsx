@@ -1,16 +1,21 @@
 import { useState } from "react";
 import "./headerComponent.css";
 import logo from "../assets/logo.png";
+import menuicon from "../assets/icons8-menu (1).svg";
+import homeicon from "../assets/home-icon.svg";
+import help from "../assets/help.png";
+import createroute from "../assets/create-route.png";
+import savedroutes from "../assets/saved-routes.png";
 
 export default function Header() {
   //state for the burger bar - so when true, it is showing
   const [showMenuBar, setShowMenuBar] = useState(false);
 
   const menuBarOptions = [
-    { name: "HOME", image: "/home-icon.svg", link: "" },
-    { name: "CREATE ROUTE", image: {}, link: "" },
-    { name: "SAVED ROUTES", image: "/saved-routes.png", link: "" },
-    { name: "HELP", image: "/help.png", link: "" },
+    { name: "HOME", image: { homeicon }, link: "" },
+    { name: "CREATE ROUTE", image: { createroute }, link: "" },
+    { name: "SAVED ROUTES", image: { savedroutes }, link: "" },
+    { name: "HELP", image: { help }, link: "" },
   ];
   return (
     <>
@@ -28,11 +33,7 @@ export default function Header() {
               console.log("hello");
             }}
           >
-            <img
-              id="menu-icon"
-              src="/icons8-menu (1).svg"
-              alt="menu-icon"
-            ></img>
+            <img id="menu-icon" src={menuicon} alt="menu-icon"></img>
           </button>
           {showMenuBar && (
             <div className="menu-options">
