@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useMap, useMapsLibrary } from "@vis.gl/react-google-maps";
 import "./directionsData.css";
 
-export default function Directions({
+export default function DirectionsData({
   markerCoordinatesArray,
   setMarkerCoordinatesArray,
   routeIsCreated,
@@ -19,6 +19,51 @@ export default function Directions({
   const [directionsResult, setDirectionsResult] = useState();
 
   const [resetMadeMapClicked, setResetMadeMapClicked] = useState(false);
+
+  const [routeName, setRouteName] = useState("");
+
+  const handleInputChange = (event) => {
+    setRouteName(event.target.value);
+  };
+
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    const routeData = {
+      name: routeName,
+      data: routeName,
+    };
+     await saveNewRoute(routeData);
+  }
+
+  async function saveNewRoute(routeData) {
+    try {
+      const response = await fetch(
+        "https://final-project-backend-1p20.onrender.com/newRoute", {
+        method: "POST",
+        body: JSON.stringify(routeData),
+        headers: { "Content-Type": "application/json" },
+        }
+      );
+      console.log(response)
+      const data = await response.json();
+      if (data) {
+        console.log(data);
+      }
+      else {
+        throw new Error("Error saving route");
+      }
+    } catch (error){
+      console.error(error);
+    }
+    
+}
+    
+
+
+
+
+
+
   useEffect(() => {
     if (!routesLibrary || !map) return;
 
@@ -66,28 +111,19 @@ export default function Directions({
     routeIsCreated,
   ]);
 
-  console.log(directionsResult);
+  // console.log(directionsResult);
 
   return (
     <>
       {routeIsCreated && directionsResult ? (
         <>
           <section className="createRoute__panel">
-            <div className="createRoute__panelETABar">
-              <ol className="createRoute__panelETABar__list">
-                <li>Start</li>
-                {directionsResult.routes[0].legs.map((element, index) => {
-                  return (
-                    <>
-                      <li key={index}>Duration: {element.duration?.text}</li>
-                    </>
-                  );
-                })}
-              </ol>
-            </div>
             <div className="createRoute__panel__actionButtons">
-              <button>Export Route</button>
-              <button>Save Route</button>
+              <form onSubmit={handleSubmit}>
+                <label htmlFor="routeName">Route Name:</label>
+                <input type="text" id="routeName" name="routeName" onChange={handleInputChange} value={routeName}/>
+                <button>Save Route</button>
+              </form>
               <button
                 onClick={() => {
                   setRouteIsCreated(!routeIsCreated);
@@ -100,6 +136,16 @@ export default function Directions({
                 Reset
               </button>
             </div>
+            <ol className="createRoute__panelETABar__list">
+              <li>Start</li>
+              {directionsResult.routes[0].legs.map((element, index) => {
+                return (
+                  <>
+                    <li key={index}>Duration: {element.duration?.text}</li>
+                  </>
+                );
+              })}
+            </ol>
           </section>
         </>
       ) : null}
