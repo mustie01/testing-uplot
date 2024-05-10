@@ -1,8 +1,12 @@
+import { Link, createRoutesFromChildren } from "react-router-dom";
 import Header from "../../components/headerComponent";
 import { useEffect, useState } from "react";
 import "./savedRoutes.css";
+import RetrievedRoutePage from "../retrievedRoutePage/retrievedRoutePage";
 export default function SavedRoutesPage() {
   const [routes, setRoutes] = useState([]);
+  const [retrieved, setRetrieved] = useState(false);
+  const [selectedRoute, setSelectedRoute] = useState({});
 
   //To avoid another API call we are using this function to call at the end to show the list.
   const deleteRoute = async (e) => {
@@ -38,38 +42,67 @@ export default function SavedRoutesPage() {
     getAllRoutes();
   }, []);
 
+  function handleRetrieve(e) {
+    console.log("hi");
+    if (retrieved === true) {
+      setRetrieved(false);
+    } else {
+      setRetrieved(true);
+    }
+
+    async function getRouteById(id) {
+      console.log(`getting route... ${id}`);
+      const response = await fetch(
+        `https://final-project-backend-lp20.onrender.com/route/${id}`
+      );
+      const data = await response.json();
+      console.log(data);
+      return data;
+    }
+    getRouteById(e.target.value);
+  }
+
   return (
     <div>
       <Header />
       {/* table with .map - show name and button */}
-      <table className="savedRoutesTable">
-        <tbody>
-          <tr>
-            <th>Route Name</th>
-          </tr>
-          {routes.map((route, index) => {
-            return (
-              <tr key={index}>
-                <td>{route.route_name}</td>
-                <td>
-                  <button className="savedRoutesTable__retrieveRouteButton">
-                    Retrieve Route
-                  </button>
-                </td>
-                <td>
-                  <button
-                    className="savedRoutesTable__deleteRouteButton"
-                    value={route.id}
-                    onClick={deleteRoute}
-                  >
-                    Delete Button
-                  </button>
-                </td>
-              </tr>
-            );
-          })}
-        </tbody>
-      </table>
+      {retrieved ? (
+        <RetrievedRoutePage handleRetrieve={handleRetrieve} />
+      ) : (
+        <table className="savedRoutesTable">
+          <tbody>
+            <tr>
+              <th>Route Name</th>
+            </tr>
+            {routes.map((route, index) => {
+              return (
+                <tr key={index}>
+                  <td>{route.route_name}</td>
+                  <td>
+                    <Link to={"retrieved-route"}></Link>
+                    <button
+                      onClick={handleRetrieve}
+                      className="savedRoutesTable__retrieveRouteButton"
+                      value={route.id}
+                    >
+                      Retrieve Route
+                    </button>
+                  </td>
+                  <td>
+                    <button
+                      className="savedRoutesTable__deleteRouteButton"
+                      value={route.id}
+                      onClick={deleteRoute}
+                    >
+                      Delete Button
+                    </button>
+                  </td>
+                </tr>
+              );
+            })}
+          </tbody>
+        </table>
+      )}
     </div>
   );
 }

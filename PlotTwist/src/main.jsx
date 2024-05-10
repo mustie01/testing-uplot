@@ -1,9 +1,6 @@
 import * as React from "react";
 import * as ReactDOM from "react-dom/client";
-import {
-  createBrowserRouter,
-  RouterProvider,
-} from "react-router-dom";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import "./index.css";
 import HomePage from "./routes/homePage/homePage";
 import CreateRoutePage from "./routes/createRoutePage/createRoutePage";
@@ -27,7 +24,6 @@ const router = createBrowserRouter([
     path: "retrieved-route",
     element: <RetrievedRoutePage />,
   },
-
 ]);
 
 ReactDOM.createRoot(document.getElementById("root")).render(
