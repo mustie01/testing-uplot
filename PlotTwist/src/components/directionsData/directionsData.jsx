@@ -32,37 +32,30 @@ export default function DirectionsData({
       name: routeName,
       data: routeName,
     };
-     await saveNewRoute(routeData);
-  }
+    await saveNewRoute(routeData);
+  };
 
   async function saveNewRoute(routeData) {
     try {
       const response = await fetch(
-        "https://final-project-backend-1p20.onrender.com/newRoute", {
-        method: "POST",
-        body: JSON.stringify(routeData),
-        headers: { "Content-Type": "application/json" },
+        "https://final-project-backend-1p20.onrender.com/newRoute",
+        {
+          method: "POST",
+          body: JSON.stringify(routeData),
+          headers: { "Content-Type": "application/json" },
         }
       );
-      console.log(response)
+      console.log(response);
       const data = await response.json();
       if (data) {
         console.log(data);
-      }
-      else {
+      } else {
         throw new Error("Error saving route");
       }
-    } catch (error){
+    } catch (error) {
       console.error(error);
     }
-    
-}
-    
-
-
-
-
-
+  }
 
   useEffect(() => {
     if (!routesLibrary || !map) return;
@@ -117,14 +110,36 @@ export default function DirectionsData({
     <>
       {routeIsCreated && directionsResult ? (
         <>
-          <section className="createRoute__panel">
-            <div className="createRoute__panel__actionButtons">
-              <form onSubmit={handleSubmit}>
-                <label htmlFor="routeName">Route Name:</label>
-                <input type="text" id="routeName" name="routeName" onChange={handleInputChange} value={routeName}/>
-                <button>Save Route</button>
-              </form>
+          <section className="routeData">
+            <form className="routeData__form" onSubmit={handleSubmit}>
+              <label className="routeData__label" htmlFor="routeName"></label>
+              <input
+                className="routeData__nameInput"
+                type="text"
+                id="routeName"
+                name="routeName"
+                onChange={handleInputChange}
+                value={routeName}
+                placeholder="Enter route name..."
+              />
+              <button className="routeData__saveRouteButton">Save Route</button>
+            </form>
+            <div className="routeData__information">
+              <ol className="routeData__list">
+                {directionsResult.routes[0].legs.map((element, index) => {
+                  const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+                  return (
+                    <li className="routeData__listItem" key={index}>
+                      {`Marker ${alphabet[index]} => Marker ${
+                        alphabet[index + 1]
+                      }: `}
+                      {element.duration?.text}
+                    </li>
+                  );
+                })}
+              </ol>
               <button
+                className="routeData__resetRouteButton"
                 onClick={() => {
                   setRouteIsCreated(!routeIsCreated);
                   setMarkerCoordinatesArray([]);
@@ -136,16 +151,6 @@ export default function DirectionsData({
                 Reset
               </button>
             </div>
-            <ol className="createRoute__panelETABar__list">
-              <li>Start</li>
-              {directionsResult.routes[0].legs.map((element, index) => {
-                return (
-                  <>
-                    <li key={index}>Duration: {element.duration?.text}</li>
-                  </>
-                );
-              })}
-            </ol>
           </section>
         </>
       ) : null}
