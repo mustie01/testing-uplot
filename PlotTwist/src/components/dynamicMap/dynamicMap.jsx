@@ -10,32 +10,37 @@ export default function DynamicMap({
   setRouteIsCreated,
   setMarkerCoordinatesArray,
 }) {
-  // const position = { lat: 52.4823, lng: -1.89 };
+  const position = { lat: 52.4823, lng: -1.89 };
 
   return (
-    <div style={{ height: "60vh", width: "60vw" }} className="dynamicMap__map">
-      <APIProvider apiKey={import.meta.env.VITE_PUBLIC_GOOGLE_MAPS_API_KEY}>
-        <Map
-          // center={position}
-          // zoom={9}
-          mapId={import.meta.env.VITE_PUBLIC_MAP_ID}
-          fullscreenControl={false}
-          onClick={handleMapClick}
-        >
-          {markerCoordinatesArray[0] &&
-            !routeIsCreated &&
-            markerCoordinatesArray.map((marker, index) => {
-              return <Marker key={index} position={marker} draggable={true} />;
-            })}
-        </Map>
-
-        <DirectionsData
+    <>
+      
+        <APIProvider apiKey={import.meta.env.VITE_PUBLIC_GOOGLE_MAPS_API_KEY}>
+        <div className="dynamicMap">
+          <Map
+            defaultCenter={position}
+            defaultZoom={9}
+            mapId={import.meta.env.VITE_PUBLIC_MAP_ID}
+            fullscreenControl={false}
+            onClick={handleMapClick}
+          >
+            {markerCoordinatesArray[0] &&
+              !routeIsCreated &&
+              markerCoordinatesArray.map((marker, index) => {
+                return (
+                  <Marker key={index} position={marker} draggable={true} />
+                );
+              })}
+          </Map>
+          </div>
+          <DirectionsData
           markerCoordinatesArray={markerCoordinatesArray}
           routeIsCreated={routeIsCreated}
           setRouteIsCreated={setRouteIsCreated}
           setMarkerCoordinatesArray={setMarkerCoordinatesArray}
         />
-      </APIProvider>
-    </div>
+        </APIProvider>
+      
+    </>
   );
 }

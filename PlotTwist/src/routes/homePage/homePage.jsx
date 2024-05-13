@@ -5,8 +5,8 @@ import "./homePage.css";
 export default function HomePage() {
   return (
     <>
-      <div
-        className="container-full-length"
+      <main
+        className="mainHomePage"
         style={{
           backgroundImage: `url(${HomePageBG})`,
           backgroundPosition: "center",
@@ -14,20 +14,16 @@ export default function HomePage() {
           backgroundRepeat: "no-repeat",
         }}
       >
-        <div className="container-full-length__container">
-          <div className=" logo">
-            <img id="logo-img" src={FullLogo}></img>
-          </div>
-          <div className="buttons">
-            <Link to={"saved-routes"}>
-              <button>My Saved Routes</button>
-            </Link>
-            <Link to={"create-route"}>
-              <button>Create A Route</button>
-            </Link>
-          </div>
+        <img className="mainHomePage__logo" src={FullLogo}></img>
+        <div className="mainHomePage__routes">
+          <Link to={"create-route"}>
+            <button className="mainHomePage__buttons">Create Routes</button>
+          </Link>
+          <Link to={"saved-routes"}>
+            <button className="mainHomePage__buttons">Saved Routes</button>
+          </Link>
         </div>
-      </div>
+      </main>
     </>
   );
 }
