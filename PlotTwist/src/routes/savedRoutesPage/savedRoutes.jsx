@@ -7,9 +7,11 @@ export default function SavedRoutesPage() {
   const [routes, setRoutes] = useState([]);
   const [retrieved, setRetrieved] = useState(false);
   const [selectedRoute, setSelectedRoute] = useState({});
+
   // State for handling the header's styling
   const [openMenu, setOpenMenu] = useState(false);
   const [screenWidth, setScreenWidth] = useState(window.innerWidth);
+
 
   //To avoid another API call we are using this function to call at the end to show the list.
   const deleteRoute = async (e) => {
