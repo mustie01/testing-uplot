@@ -3,15 +3,18 @@ import Header from "../../components/header/headerComponent";
 import { useEffect, useState } from "react";
 import "./savedRoutes.css";
 import RetrievedRoutePage from "../retrievedRoutePage/retrievedRoutePage";
+import loadingsymbol from "../../assets/tube-spinner.svg";
+import logo from "../../assets/FullLogo.png";
+
 export default function SavedRoutesPage() {
   const [routes, setRoutes] = useState([]);
   const [retrieved, setRetrieved] = useState(false);
   const [selectedRoute, setSelectedRoute] = useState({});
+  const [isLoading, setIsLoading] = useState(true);
 
   // State for handling the header's styling
   const [openMenu, setOpenMenu] = useState(false);
   const [screenWidth, setScreenWidth] = useState(window.innerWidth);
-
 
   //To avoid another API call we are using this function to call at the end to show the list.
   const deleteRoute = async (e) => {
@@ -23,8 +26,9 @@ export default function SavedRoutesPage() {
       `https://final-project-backend-lp20.onrender.com/delete/${id}`,
       { method: "DELETE" }
     );
-    const data = await response.json();
     console.log(data);
+    const data = await response.json();
+
     //This function is called after the deletion to re-render on page load, this will populate the routes
     getAllRoutes();
   };
@@ -37,9 +41,10 @@ export default function SavedRoutesPage() {
     //changes the data into json so we can display it on the screen
     const data = await response.json();
     //the fetch routes are then store in routes state by using the setRoutes function.
+    console.log(data);
 
     setRoutes(data.payload);
-    console.log(data);
+    setIsLoading(false);
   };
 
   useEffect(() => {
@@ -84,13 +89,21 @@ export default function SavedRoutesPage() {
   return (
     <>
       <Header openMenu={openMenu} handleOpenMenu={handleOpenMenu} />
-      <main style={
+      <main
+        style={
           openMenu && Number(screenWidth) < 1024
-            ? { "paddingTop": "365px" }
-            : { "paddingTop": "120px" }
-        }>
+            ? { paddingTop: "365px" }
+            : { paddingTop: "120px" }
+        }
+      >
         {/* table with .map - show name and button */}
-        {retrieved ? (
+
+        {isLoading ? (
+          <div className="savedRoutes__loading-div">
+            <img className="uplot-logo" src={logo}></img>
+            <img className="loading-gif" src={loadingsymbol}></img>
+          </div>
+        ) : retrieved ? (
           <RetrievedRoutePage handleRetrieve={handleRetrieve} />
         ) : (
           <table className="savedRoutesTable">
